@@ -14,25 +14,29 @@ function App() {
       console.log("ERROR", error);
     }
   };
-  // const getNearBranch = async () => {
-  //   try {
-  //     const result = await axios.get("http://localhost:8010/restaurants/", {
-  //       lat: 1,
-  //       lon: 1,
-  //     });
-  //     setBranches(result.data.branches);
-  //   } catch (error) {
-  //     console.log("ERROR", error);
-  //   }
-  // };
+  const getNearBranch = async () => {
+    try {
+      const result = await axios.post(
+        "http://localhost:8010/restaurants/near?distance=200",
+        {
+          lat: 47.92394060040875,
+          lon: 106.93371541130081,
+        }
+      );
+      setBranches(result.data.branches);
+    } catch (error) {
+      console.log("ERROR", error);
+    }
+  };
+
   return (
     <div className="App">
       <h1>Gazriin zurag</h1>
       <div>
         <button onClick={getAllBranch}>Buh salbar</button>
-        <button>Ugugdsun zaid oirhon</button>
+        <button onClick={getNearBranch}>Ugugdsun zaid oirhon</button>
       </div>
-      <div style={{ width: "100%", height: "100vh", backgroundColor: "green" }}>
+      <div style={{ width: "100%", height: "90vh", backgroundColor: "green" }}>
         <MapContainer
           center={[47.923773, 106.93387]}
           zoom={16}
@@ -44,9 +48,7 @@ function App() {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <Marker position={[47.923773, 106.93387]}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
+            <Popup>Seoul Business Center</Popup>
           </Marker>
           {branches.length > 0 &&
             branches.map((r, index) => (
